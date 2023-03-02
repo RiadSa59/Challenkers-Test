@@ -31,3 +31,10 @@ R - React: A JavaScript library for building user interfaces. React allows devel
 N - Node.js: An open-source, cross-platform JavaScript runtime environment that allows developers to run JavaScript code on the server-side. Node.js is used as the platform for running the back-end code of the MERN stack.
 
 </p>
+
+
+<p>
+
+Les 6 'high serverity vulnerabilities' sont dûs au pack react-app dans le dossier . ` ./frontend `
+
+</p>
