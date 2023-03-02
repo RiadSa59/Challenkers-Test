@@ -1,7 +1,7 @@
 # Test Technique Challenkers 
 # Riad SABIR 2022-2023
 
-### Used Stacks : ( MERN ) Mongo / Express / React / Node.js
+### Used Stacks : ( MERN ) Mongo / Express / React / Node.js + Bootstrap pour les icons
 
 <p> There is a README.MD in the backend and frontend folders , both of them will help you know how to run the project and test it in your own computer . </p>
 
