@@ -1,9 +1,11 @@
 # Test Technique Challenkers 
 # Riad SABIR 2022-2023
 
-### Used Stacks : ( MERN ) Mongo / Express / React / Node.js + Bootstrap pour les icons
+### Used Stacks : ( MERN ) Mongo / Express / React / Node.js +Bootstrap pour les icons 
 
 <p> There is a README.MD in the backend and frontend folders , both of them will help you know how to run the project and test it in your own computer . </p>
+
+<p> You need to run the The Backend First then simultanèment , you run the frontend after </p>
 
 #### ` ./frontend ` contains the code for the user interface 
 #### ` ./backend ` contains 

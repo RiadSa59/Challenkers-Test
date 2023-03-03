@@ -4,13 +4,16 @@ const Schema = mongoose.Schema
 
 const taskSchema = new Schema({
   name: {
+
     type: String,
     required: true
   },
   status: {
-    type: Number,
+
+    type: String,
     required: true
-  }
+  
+}
 }, { timestamps: true })
 
 module.exports = mongoose.model('Task', taskSchema)
