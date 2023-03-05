@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const STATES = {
+ const STATES = {
     TODO : " A faire",
     IN_PROGRESS : "En cours",
     DONE : "Fait",
@@ -29,4 +29,4 @@ const StateList = ({ onChange }) => {
   );
 };
 
-export default {StateList,STATES};
+export default StateList

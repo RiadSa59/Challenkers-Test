@@ -1,88 +1,47 @@
-import { useState } from 'react';
-import { useTasksContext } from '../hooks/useTasksContext';
-import  CreateTask from './AddTask';
-import  ModifyTask  from './TaskModify';
-import  StateList  from './ChangeStat';
-import  SearchBar  from './SearchBar';
-import Status  from './StatSpan';
+import { useTasksContext } from '../hooks/useTasksContext'
+import  StateList from './TaskStates'
+
 
 const TaskDetails = ({ task }) => {
-  const { tasks, setTasks } = useTasksContext();
-  const [isNewTask, setIsNewTask] = useState(false);
-  const [newTaskName, setNewTaskName] = useState('');
-  const [newTaskStatus, setNewTaskStatus] = useState('');
-  const [selectedTaskStatus, setSelectedTaskStatus] = useState('');
+  const { dispatch } = useTasksContext()
 
-  const handleNewTaskName = (event) => {
-    setNewTaskName(event.target.value);
-  };
+  const handleClick = async () => {
+    const response = await fetch('/api/task/' + task._id, {
+      method: 'DELETE'
+    })
+    const json = await response.json()
 
-  const handleTaskStatusChange = (task, status) => {
-    setSelectedTaskStatus(status);
-    ModifyTask({
-      task,
-      status,
-      setTasks,
-      setSelectedStatus: setSelectedTaskStatus,
+    if (response.ok) {
+      dispatch({type: 'DELETE_TASKS', payload: json})
+    }
+  }
+
+  const handleStatusChange = async (status) => {
+    const response = await fetch(`/api/task/${task._id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ status }),
+      headers: {
+        "Content-Type": "application/json"
+      }
     });
+    const json = await response.json();
+
+    if (response.ok) {
+      dispatch({ type: 'UPDATE_TASKS', payload: json });
+    }
   };
 
   return (
-    <div className="task-list">
-      <SearchBar setTasks={setTasks} />
-      <table>
-        <thead>
-          <tr>
-            <th colSpan={1}>Task</th>
-            <th colSpan={1}>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr className={isNewTask ? '' : 'hidden'}>
-            <td>
-              <input
-                type="text"
-                placeholder="Task name"
-                className="input-add"
-                onChange={handleNewTaskName}
-              />
-            </td>
-            <td className="status-container">
-              <StateList onChange={setNewTaskStatus} />
-              <CreateTask
-                tasks={tasks}
-                setTasks={setTasks}
-                name={newTaskName}
-                status={newTaskStatus}
-                setIsNewTask={setIsNewTask}
-              />
-            </td>
-          </tr>
-          {tasks &&
-            tasks.map((task) => (
-              <tr key={task._id}>
-                <td>{task.name}</td>
-                <td className="status-container">
-                  <Status status={task.status} />
-                  <StateList
-                    onChange={(status) =>
-                      handleTaskStatusChange(task, status)
-                    }
-                  />
-                  <ModifyTask
-                    task={task}
-                    selectedStatus={selectedTaskStatus}
-                    setTasks={setTasks}
-                    setSelectedStatus={setSelectedTaskStatus}
-                  />
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
-      <CreateTask setIsNewTask={setIsNewTask} />
-    </div>
-  );
-};
+    <tr>
+      <td className="task-name">{task.name}</td>
+      <td className="task-status">{task.status}</td>
+      <td className="task-actions">
+        <span className="material-symbols-outlined" onClick={handleClick}>delete</span>
+        <StateList onChange={handleStatusChange}/>
+      </td>
+    </tr>
+    
+  )
+}
 
-export default TaskDetails;
+export default TaskDetails

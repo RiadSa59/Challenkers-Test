@@ -16,7 +16,7 @@ const getTask = async (req, res) => {
     return res.status(404).json({error: 'No such task'})
   }
 
-  const task = await task.findById(id)
+  const task = await Tasks.findById(id)
 
   if (!task) {
     return res.status(404).json({error: 'No such task'})
@@ -44,7 +44,7 @@ const createTask = async (req, res) => {
 
   // add to the database
   try {
-    const task = await task.create({ name, status })
+    const task = await Tasks.create({ name, status })
     res.status(200).json(task)
   } catch (error) {
     res.status(400).json({ error: error.message })
@@ -59,7 +59,7 @@ const deleteTask = async (req, res) => {
     return res.status(400).json({error: 'No such task'})
   }
 
-  const task = await task.findOneAndDelete({_id: id})
+  const task = await Tasks.findOneAndDelete({_id: id})
 
   if(!task) {
     return res.status(400).json({error: 'No such task'})
@@ -69,6 +69,7 @@ const deleteTask = async (req, res) => {
 }
 
 // update a task
+
 const updateTask = async (req, res) => {
   const { id } = req.params
 
@@ -76,26 +77,45 @@ const updateTask = async (req, res) => {
     return res.status(400).json({error: 'No such task'})
   }
 
-  const task = await task.findOneAndUpdate({_id: id}, {
-    ...req.body
-  })
+  try {
+    const updatedTask = await Tasks.findOneAndUpdate({_id: id}, {
+      status: req.body.status
+    }, { new: true });
 
-  if (!task) {
-    return res.status(400).json({error: 'No such task'})
+    if (!updatedTask) {
+      return res.status(400).json({error: 'No such task'})
+    }
+
+    res.status(200).json(updatedTask);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
   }
-
-  res.status(200).json(task)
 }
 
+
+//To remove ACCENTS
+const removeAccents = (str) => {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+};
 // Get matching Task 
-const searchTask = (req, res) => {
-    const searchInput = req.params.searchInput.toLowerCase();
-  
-    Tasks.find({ name: { $regex: searchInput, $options: 'i' } })
-      .sort({ createdAt: -1 })
-      .then((matchingTasks) => res.status(200).json(matchingTasks))
-      .catch((err) => res.status(500).json({ message: err.message }));
-  };
+const searchTask = async (req, res) => {
+  const searchInput = req.params.searchTask;
+
+  // If search input is empty, return all tasks
+  if (!searchInput) {
+    return getTasks(req, res);
+  }
+
+  const normalizedInput = removeAccents(searchInput.toLowerCase());
+
+  try {
+    const matchingTasks = await Tasks.find({ name: { $regex: normalizedInput, $options: 'i' } }).sort({ createdAt: -1 });
+    res.status(200).json(matchingTasks);
+  } catch(err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 
 // Delete All Tasks
 
