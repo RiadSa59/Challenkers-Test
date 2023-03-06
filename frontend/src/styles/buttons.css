@@ -1,0 +1,10 @@
+.btn-primary{
+
+    margin-top: 2vh;
+    margin-left: 6vw;
+    margin-right: 8vw;
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+}
+

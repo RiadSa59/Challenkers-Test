@@ -1,0 +1,29 @@
+.searchbar{
+    background-color: white;
+    border-radius: 10px;
+    width: 52%;
+    height: 6.50vh;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+
+    margin: 11.0vh 30% 6.2vh 24%;
+}
+
+.searchbar input{
+    border: none;
+    margin-left: 2.30vw;
+    margin-right: 3vw;
+    padding-bottom: 1vh;
+    border-bottom: 1px solid black;
+}
+
+.searchbar input::placeholder{
+    color: #504e4e;
+    font-size: larger;
+}
+
+.searchbar input:focus{
+    outline: none;
+    color: #504e4e;
+}

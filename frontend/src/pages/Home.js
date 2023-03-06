@@ -1,6 +1,10 @@
 import { useEffect } from "react"
 import { useTasksContext } from "../hooks/useTasksContext"
 
+// CSS
+import '../styles/header.css'
+import '../styles/tasks.css'
+
 // components
 import TaskDetails from "../components/TaskDetails"
 import TaskForm from "../components/TaskForm"

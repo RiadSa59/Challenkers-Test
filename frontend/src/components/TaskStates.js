@@ -1,11 +1,6 @@
 import { useState } from "react";
+import { STATES } from "./TasksOptions";
 
- const STATES = {
-    TODO : " A faire",
-    IN_PROGRESS : "En cours",
-    DONE : "Fait",
-    LATE : "En retard"
-}
 const StateList = ({ onChange }) => {
   const [selectedStatus, setNewStatus] = useState("");
 
@@ -20,8 +15,8 @@ const StateList = ({ onChange }) => {
       <select value={selectedStatus} onChange={NewStatus}>
         <option value="">Changes State</option>
         {Object.values(STATES).map((state) => (
-          <option key={state} value={state}>
-            {state}
+          <option key={state.id} value={state.value}>
+            {state.value}
           </option>
         ))}
       </select>
@@ -29,4 +24,4 @@ const StateList = ({ onChange }) => {
   );
 };
 
-export default StateList
+export default StateList;

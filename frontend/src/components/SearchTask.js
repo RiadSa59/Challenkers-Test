@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTasksContext } from '../hooks/useTasksContext'
+import '../styles/searchtask.css'
 
 const SearchBar = () => {
   const { dispatch } = useTasksContext()

@@ -1,5 +1,7 @@
 const Tasks = require('../models/Tasks')
 const mongoose = require('mongoose')
+const diacritic = require('diacritic')
+
 
 // get all Tasks
 const getTasks = async (req, res) => {
@@ -95,9 +97,7 @@ const updateTask = async (req, res) => {
 
 
 //To remove ACCENTS
-const removeAccents = (str) => {
-  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-};
+
 // Get matching Task 
 const searchTask = async (req, res) => {
   const searchInput = req.params.searchTask;
@@ -107,7 +107,7 @@ const searchTask = async (req, res) => {
     return getTasks(req, res);
   }
 
-  const normalizedInput = removeAccents(searchInput.toLowerCase());
+  const normalizedInput = diacritic.clean(searchInput.toLowerCase());
 
   try {
     const matchingTasks = await Tasks.find({ name: { $regex: normalizedInput, $options: 'i' } }).sort({ createdAt: -1 });
@@ -116,7 +116,6 @@ const searchTask = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
 // Delete All Tasks
 
 const deleteAllTasks = async (req, res) => {
